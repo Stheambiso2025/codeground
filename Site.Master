@@ -1,0 +1,131 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="MyCode.SiteMaster" %>
+
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%: Page.Title %> - CodeGround</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+    <link href="Content/site.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
+</head>
+<body>
+    <form id="form1" runat="server">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="Default.aspx">CodeGround</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navMenu">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item"><a class="nav-link" href="Default.aspx">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Courses.aspx">Courses</a></li>
+                        <li class="nav-item"><a class="nav-link" href="About.aspx">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Contact.aspx">Contact</a></li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <% if (Request.IsAuthenticated) { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="Dashboard.aspx">📊 Dashboard</a>
+                            </li>
+                            <% if (Session["IsAdmin"] != null && (bool)Session["IsAdmin"]) { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="Admin.aspx">⚙️ Admin</a>
+                            </li>
+                            <% } %>
+                            <li class="nav-item">
+                                <span class="nav-link text-white">👤 <%: Session["UserName"] ?? "User" %></span>
+                            </li>
+                            <li class="nav-item">
+                                <asp:LinkButton ID="btnLogout" runat="server" CssClass="nav-link" OnClick="btnLogout_Click">Logout</asp:LinkButton>
+                            </li>
+                        <% } else { %>
+                            <li class="nav-item"><a class="nav-link" href="Login.aspx">Login</a></li>
+                            <li class="nav-item"><a class="btn btn-primary ms-2 text-white" href="Register.aspx">Register</a></li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-dark text-white pt-5 pb-3 mt-5">
+            <div class="container">
+                <div class="row g-4">
+                    
+                    <div class="col-md-5">
+                        <h5 class="fw-bold">CodeGround</h5>
+                        <p class="text-secondary mb-0">
+                            Learn Python & Java for free — simple lessons, real code, no experience needed.
+                        </p>
+                    </div>
+
+                    <div class="col-md-3">
+                        <h5 class="fw-bold">Quick Links</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="Default.aspx" class="text-secondary text-decoration-none">Home</a></li>
+                            <li><a href="Courses.aspx" class="text-secondary text-decoration-none">Courses</a></li>
+                            <li><a href="About.aspx" class="text-secondary text-decoration-none">About</a></li>
+                            <li><a href="Contact.aspx" class="text-secondary text-decoration-none">Contact</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-4">
+                        <h5 class="fw-bold">Contact</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                📧 <a href="mailto:Sthembisovusmuzi@gmail.com" class="text-secondary text-decoration-none">
+                                    Sthembisovusmuzi@gmail.com
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                🐙 <a href="https://github.com/Stheambiso2025" target="_blank" class="text-secondary text-decoration-none">
+                                    github.com/Stheambiso2025
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                📍 <span class="text-secondary">Durban, South Africa</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <hr class="border-secondary my-4" />
+
+                <div class="text-center text-secondary small">
+                    © <%: DateTime.Now.Year %> CodeGround — Learn Programming Free
+                </div>
+            </div>
+        </footer>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+function togglePassword(btn) {
+    var input = btn.parentElement.querySelector('input');
+    if (!input) return;
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.innerHTML = '<i class="bi bi-eye-slash"></i>';
+    } else {
+        input.type = 'password';
+        btn.innerHTML = '<i class="bi bi-eye"></i>';
+    }
+        }
+    </script>
+
+    <asp:ContentPlaceHolder ID="ScriptContent" runat="server" />
+</body>
+</html>
